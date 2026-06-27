@@ -27,7 +27,7 @@ Responsive Google Calendar Event Generator built with Google Apps Script.
 
 ### Mobile
 
-![Mobile](Gcal%20Event%20Generator%20rahmatmh%20mobile.png)
+![Mobile](Gcal%20Event%20generator%20rahmatmh%20mobile.png)
 
 ---
 
