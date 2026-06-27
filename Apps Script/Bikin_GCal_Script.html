@@ -1,0 +1,1230 @@
+<script>
+
+(function() {
+
+  /*****************************************
+   * ELEMENTS
+   *****************************************/
+
+  const form =
+    document.getElementById(
+      "eventForm"
+    );
+
+  if (
+    !form
+  ) {
+
+    console.error(
+      "Form eventForm tidak ditemukan."
+    );
+
+    return;
+
+  }
+
+  const result =
+    document.getElementById(
+      "result"
+    );
+
+  const textarea =
+    document.getElementById(
+      "description"
+    );
+
+  const repeatFlag =
+    document.getElementById(
+      "repeatFlag"
+    );
+
+  const repeatContainer =
+    document.getElementById(
+      "repeatContainer"
+    );
+
+  const repeatInterval =
+    document.getElementById(
+      "repeatInterval"
+    );
+
+  const repeatUnit =
+    document.getElementById(
+      "repeatUnit"
+    );
+
+  const repeatDaysContainer =
+    document.getElementById(
+      "repeatDaysContainer"
+    );
+
+  const repeatEndType =
+    document.getElementById(
+      "repeatEndType"
+    );
+
+  const repeatEndDateContainer =
+    document.getElementById(
+      "repeatEndDateContainer"
+    );
+
+  const repeatCountContainer =
+    document.getElementById(
+      "repeatCountContainer"
+    );
+
+  const repeatEndDate =
+    document.getElementById(
+      "repeatEndDate"
+    );
+
+  const repeatCount =
+    document.getElementById(
+      "repeatCount"
+    );
+
+  const submitButton =
+    document.getElementById(
+      "submitButton"
+    );
+
+  const allDay =
+    document.getElementById(
+      "allDay"
+    );
+
+  const startDate =
+    form.querySelector(
+      'input[name="startDate"]'
+    );
+
+  const endDate =
+    form.querySelector(
+      'input[name="endDate"]'
+    );
+
+  const startTime =
+    form.querySelector(
+      'input[name="startTime"]'
+    );
+
+  const endTime =
+    form.querySelector(
+      'input[name="endTime"]'
+    );
+
+  const guestsInput =
+    form.querySelector(
+      'input[name="guests"]'
+    );
+
+
+  /*****************************************
+   * WEEKDAY MAP
+   *****************************************/
+
+  const weekdayMap = {
+
+    0:
+      "SUN",
+
+    1:
+      "MON",
+
+    2:
+      "TUE",
+
+    3:
+      "WED",
+
+    4:
+      "THU",
+
+    5:
+      "FRI",
+
+    6:
+      "SAT"
+
+  };
+
+
+  /*****************************************
+   * SHOW RESULT
+   *****************************************/
+
+  function showResult(
+    message
+  ) {
+
+    if (
+      result
+    ) {
+
+      result.innerHTML =
+        message;
+
+    }
+
+  }
+
+
+  /*****************************************
+   * BUTTON LOADING
+   *****************************************/
+
+  function setLoading(
+    isLoading
+  ) {
+
+    if (
+      !submitButton
+    ) {
+      return;
+    }
+
+    if (
+      isLoading
+    ) {
+
+      submitButton.disabled =
+        true;
+
+      submitButton.innerHTML =
+        "⏳ Sedang membuat event...";
+
+    }
+
+    else {
+
+      submitButton.disabled =
+        false;
+
+      submitButton.innerHTML =
+        "📅 Simpan Event";
+
+    }
+
+  }
+
+
+  /*****************************************
+   * AUTO EXPAND TEXTAREA
+   *****************************************/
+
+  if (
+    textarea
+  ) {
+
+    textarea.addEventListener(
+      "input",
+      function() {
+
+        this.style.height =
+          "auto";
+
+        this.style.height =
+          this.scrollHeight + "px";
+
+      }
+    );
+
+  }
+
+
+  /*****************************************
+   * GET SELECTED REPEAT DAYS
+   *****************************************/
+
+  function getSelectedRepeatDays() {
+
+    const selectedDays =
+      [];
+
+    document
+      .querySelectorAll(
+        '#repeatDaysContainer input[type="checkbox"]:checked'
+      )
+      .forEach(function(cb) {
+
+        selectedDays.push(
+          cb.value
+        );
+
+      });
+
+    return selectedDays.join(
+      ","
+    );
+
+  }
+
+
+  /*****************************************
+   * CLEAR REPEAT DAYS
+   *****************************************/
+
+  function clearRepeatDays() {
+
+    document
+      .querySelectorAll(
+        '#repeatDaysContainer input[type="checkbox"]'
+      )
+      .forEach(function(cb) {
+
+        cb.checked =
+          false;
+
+      });
+
+  }
+
+
+  /*****************************************
+   * CHECK REPEAT DAY
+   *****************************************/
+
+  function checkRepeatDay(
+    dayCode
+  ) {
+
+    const checkbox =
+      document.querySelector(
+        '#repeatDaysContainer input[type="checkbox"][value="' +
+        dayCode +
+        '"]'
+      );
+
+    if (
+      checkbox
+    ) {
+
+      checkbox.checked =
+        true;
+
+    }
+
+  }
+
+
+  /*****************************************
+   * GET DAY CODE FROM DATE INPUT
+   *****************************************/
+
+  function getDayCodeFromDateInput(
+    dateValue
+  ) {
+
+    if (
+      !dateValue
+    ) {
+
+      return "";
+
+    }
+
+    const parts =
+      dateValue.split(
+        "-"
+      );
+
+    if (
+      parts.length !== 3
+    ) {
+
+      return "";
+
+    }
+
+    const date =
+      new Date(
+        Number(parts[0]),
+        Number(parts[1]) - 1,
+        Number(parts[2])
+      );
+
+    return weekdayMap[
+      date.getDay()
+    ];
+
+  }
+
+
+  /*****************************************
+   * AUTO CHECK WEEKLY DAY FROM START DATE
+   *****************************************/
+
+  function autoCheckWeeklyDayFromStartDate() {
+
+    if (
+      !startDate ||
+      !repeatUnit ||
+      repeatUnit.value !== "WEEKLY"
+    ) {
+
+      return;
+
+    }
+
+    const selected =
+      getSelectedRepeatDays();
+
+    if (
+      selected
+    ) {
+
+      return;
+
+    }
+
+    const dayCode =
+      getDayCodeFromDateInput(
+        startDate.value
+      );
+
+    if (
+      dayCode
+    ) {
+
+      checkRepeatDay(
+        dayCode
+      );
+
+    }
+
+  }
+
+
+  /*****************************************
+   * SHOW / HIDE REPEAT CONTAINER
+   *****************************************/
+
+  function updateRepeatDisplay() {
+
+    if (
+      !repeatFlag ||
+      !repeatContainer
+    ) {
+
+      return;
+
+    }
+
+    if (
+      repeatFlag.value === "Y"
+    ) {
+
+      repeatContainer.style.display =
+        "block";
+
+    }
+
+    else {
+
+      repeatContainer.style.display =
+        "none";
+
+    }
+
+    updateRepeatDaysDisplay();
+
+  }
+
+
+  /*****************************************
+   * SHOW / HIDE REPEAT DAYS
+   *****************************************/
+
+  function updateRepeatDaysDisplay() {
+
+    if (
+      !repeatFlag ||
+      !repeatUnit ||
+      !repeatDaysContainer
+    ) {
+
+      return;
+
+    }
+
+    if (
+      repeatFlag.value === "Y" &&
+      repeatUnit.value === "WEEKLY"
+    ) {
+
+      repeatDaysContainer.style.display =
+        "block";
+
+      autoCheckWeeklyDayFromStartDate();
+
+    }
+
+    else {
+
+      repeatDaysContainer.style.display =
+        "none";
+
+      clearRepeatDays();
+
+    }
+
+  }
+
+
+  /*****************************************
+   * SHOW / HIDE REPEAT END
+   *****************************************/
+
+  function updateRepeatEndDisplay() {
+
+    if (
+      !repeatEndType ||
+      !repeatEndDateContainer ||
+      !repeatCountContainer
+    ) {
+
+      return;
+
+    }
+
+    repeatEndDateContainer.style.display =
+      "none";
+
+    repeatCountContainer.style.display =
+      "none";
+
+    if (
+      repeatEndType.value === "DATE"
+    ) {
+
+      repeatEndDateContainer.style.display =
+        "block";
+
+    }
+
+    if (
+      repeatEndType.value === "COUNT"
+    ) {
+
+      repeatCountContainer.style.display =
+        "block";
+
+    }
+
+  }
+
+
+  /*****************************************
+   * FULL DAY HANDLER
+   *****************************************/
+
+  function updateAllDayDisplay() {
+
+    if (
+      !allDay ||
+      !startTime ||
+      !endTime
+    ) {
+
+      return;
+
+    }
+
+    if (
+      allDay.value === "Y"
+    ) {
+
+      startTime.value =
+        "";
+
+      endTime.value =
+        "";
+
+      startTime.disabled =
+        true;
+
+      endTime.disabled =
+        true;
+
+      startTime.placeholder =
+        "Nonaktif saat Full Day";
+
+      endTime.placeholder =
+        "Nonaktif saat Full Day";
+
+    }
+
+    else {
+
+      startTime.disabled =
+        false;
+
+      endTime.disabled =
+        false;
+
+      startTime.placeholder =
+        "";
+
+      endTime.placeholder =
+        "";
+
+    }
+
+  }
+
+
+  /*****************************************
+   * VALIDATE EMAIL
+   *****************************************/
+
+  function validateEmails(
+    emailString
+  ) {
+
+    if (
+      !emailString ||
+      emailString.trim() === ""
+    ) {
+
+      return true;
+
+    }
+
+    const emails =
+      emailString
+        .split(",")
+        .map(function(email) {
+
+          return email.trim();
+
+        })
+        .filter(Boolean);
+
+    const regex =
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    const invalid =
+      emails.filter(function(email) {
+
+        return !regex.test(
+          email
+        );
+
+      });
+
+    if (
+      invalid.length > 0
+    ) {
+
+      alert(
+        "Email tidak valid:\n\n" +
+        invalid.join("\n")
+      );
+
+      return false;
+
+    }
+
+    return true;
+
+  }
+
+
+  /*****************************************
+   * VALIDATE DATE TIME
+   *****************************************/
+
+  function validateDateTime(
+    data
+  ) {
+
+    if (
+      !data.startDate
+    ) {
+
+      alert(
+        "Start Date wajib diisi."
+      );
+
+      return false;
+
+    }
+
+    if (
+      !data.endDate
+    ) {
+
+      alert(
+        "End Date wajib diisi."
+      );
+
+      return false;
+
+    }
+
+    if (
+      data.allDay === "Y"
+    ) {
+
+      return true;
+
+    }
+
+    const start =
+      new Date(
+        data.startDate +
+        "T" +
+        (
+          data.startTime ||
+          "00:00"
+        )
+      );
+
+    const end =
+      new Date(
+        data.endDate +
+        "T" +
+        (
+          data.endTime ||
+          "23:59"
+        )
+      );
+
+    if (
+      end <= start
+    ) {
+
+      alert(
+        "End Date/Time harus lebih besar dari Start Date/Time."
+      );
+
+      return false;
+
+    }
+
+    return true;
+
+  }
+
+
+  /*****************************************
+   * VALIDATE REPEAT
+   *****************************************/
+
+  function validateRepeat(
+    data
+  ) {
+
+    if (
+      data.repeat !== "Y"
+    ) {
+
+      return true;
+
+    }
+
+    if (
+      !data.repeatInterval ||
+      Number(data.repeatInterval) < 1
+    ) {
+
+      alert(
+        "Repeat interval minimal 1."
+      );
+
+      return false;
+
+    }
+
+    if (
+      !data.repeatUnit
+    ) {
+
+      alert(
+        "Repeat unit belum dipilih."
+      );
+
+      return false;
+
+    }
+
+    if (
+      data.repeatUnit === "WEEKLY" &&
+      !data.repeatDays
+    ) {
+
+      alert(
+        "Untuk repeat weekly, pilih minimal satu hari pada Repeat On."
+      );
+
+      return false;
+
+    }
+
+    if (
+      data.repeatEndType === "DATE" &&
+      !data.repeatEndDate
+    ) {
+
+      alert(
+        "Repeat End Date wajib diisi."
+      );
+
+      return false;
+
+    }
+
+    if (
+      data.repeatEndType === "COUNT"
+    ) {
+
+      if (
+        !data.repeatCount ||
+        Number(data.repeatCount) < 1
+      ) {
+
+        alert(
+          "Jumlah occurrences minimal 1."
+        );
+
+        return false;
+
+      }
+
+    }
+
+    return true;
+
+  }
+
+
+  /*****************************************
+   * BUILD FORM DATA
+   *****************************************/
+
+  function buildFormData() {
+
+    const data =
+      {};
+
+    new FormData(
+      form
+    ).forEach(function(
+      value,
+      key
+    ) {
+
+      data[key] =
+        value;
+
+    });
+
+    /*****************************************
+     * HAPUS CHECKBOX RAW
+     *****************************************/
+
+    delete data.repeatDay;
+
+    /*****************************************
+     * REPEAT DATA
+     *****************************************/
+
+    if (
+      repeatFlag &&
+      repeatFlag.value === "Y"
+    ) {
+
+      data.repeat =
+        "Y";
+
+      data.repeatInterval =
+        repeatInterval
+          ? repeatInterval.value
+          : "1";
+
+      data.repeatUnit =
+        repeatUnit
+          ? repeatUnit.value
+          : "DAILY";
+
+      data.repeatEndType =
+        repeatEndType
+          ? repeatEndType.value
+          : "NEVER";
+
+      data.repeatEndDate =
+        repeatEndDate
+          ? repeatEndDate.value
+          : "";
+
+      data.repeatCount =
+        repeatCount
+          ? repeatCount.value
+          : "";
+
+      data.repeatDays =
+        getSelectedRepeatDays();
+
+    }
+
+    else {
+
+      data.repeat =
+        "N";
+
+      data.repeatInterval =
+        "";
+
+      data.repeatUnit =
+        "";
+
+      data.repeatEndType =
+        "";
+
+      data.repeatEndDate =
+        "";
+
+      data.repeatCount =
+        "";
+
+      data.repeatDays =
+        "";
+
+    }
+
+    /*****************************************
+     * FULL DAY DATA
+     *****************************************/
+
+    if (
+      allDay &&
+      allDay.value === "Y"
+    ) {
+
+      data.allDay =
+        "Y";
+
+      data.startTime =
+        "";
+
+      data.endTime =
+        "";
+
+    }
+
+    else {
+
+      data.allDay =
+        "N";
+
+    }
+
+    /*****************************************
+     * DEFAULT SEND NOTIFICATION
+     *****************************************/
+
+    if (
+      !data.sendNotification
+    ) {
+
+      data.sendNotification =
+        "N";
+
+    }
+
+    return data;
+
+  }
+
+
+  /*****************************************
+   * RESET FORM UI
+   *****************************************/
+
+  function resetFormUi() {
+
+    form.reset();
+
+    if (
+      textarea
+    ) {
+
+      textarea.style.height =
+        "120px";
+
+    }
+
+    if (
+      repeatContainer
+    ) {
+
+      repeatContainer.style.display =
+        "none";
+
+    }
+
+    if (
+      repeatDaysContainer
+    ) {
+
+      repeatDaysContainer.style.display =
+        "none";
+
+    }
+
+    if (
+      repeatEndDateContainer
+    ) {
+
+      repeatEndDateContainer.style.display =
+        "none";
+
+    }
+
+    if (
+      repeatCountContainer
+    ) {
+
+      repeatCountContainer.style.display =
+        "none";
+
+    }
+
+    clearRepeatDays();
+
+    updateRepeatDisplay();
+
+    updateRepeatEndDisplay();
+
+    updateAllDayDisplay();
+
+  }
+
+
+  /*****************************************
+   * EVENT LISTENERS
+   *****************************************/
+
+  if (
+    repeatFlag
+  ) {
+
+    repeatFlag.addEventListener(
+      "change",
+      function() {
+
+        updateRepeatDisplay();
+
+      }
+    );
+
+  }
+
+  if (
+    repeatUnit
+  ) {
+
+    repeatUnit.addEventListener(
+      "change",
+      function() {
+
+        if (
+          repeatUnit.value === "WEEKLY"
+        ) {
+
+          clearRepeatDays();
+
+        }
+
+        updateRepeatDaysDisplay();
+
+      }
+    );
+
+  }
+
+  if (
+    repeatEndType
+  ) {
+
+    repeatEndType.addEventListener(
+      "change",
+      function() {
+
+        updateRepeatEndDisplay();
+
+      }
+    );
+
+  }
+
+  if (
+    allDay
+  ) {
+
+    allDay.addEventListener(
+      "change",
+      function() {
+
+        updateAllDayDisplay();
+
+      }
+    );
+
+  }
+
+  if (
+    startDate
+  ) {
+
+    startDate.addEventListener(
+      "change",
+      function() {
+
+        if (
+          repeatFlag &&
+          repeatFlag.value === "Y" &&
+          repeatUnit &&
+          repeatUnit.value === "WEEKLY"
+        ) {
+
+          clearRepeatDays();
+
+          autoCheckWeeklyDayFromStartDate();
+
+        }
+
+      }
+    );
+
+  }
+
+
+  /*****************************************
+   * SUBMIT FORM
+   *****************************************/
+
+  form.addEventListener(
+    "submit",
+    function(e) {
+
+      e.preventDefault();
+
+      const emailField =
+        guestsInput
+          ? guestsInput.value
+          : "";
+
+      if (
+        !validateEmails(
+          emailField
+        )
+      ) {
+
+        return;
+
+      }
+
+      const data =
+        buildFormData();
+
+      if (
+        !validateDateTime(
+          data
+        )
+      ) {
+
+        return;
+
+      }
+
+      if (
+        !validateRepeat(
+          data
+        )
+      ) {
+
+        return;
+
+      }
+
+      console.log(
+        "Data dikirim ke Apps Script:",
+        data
+      );
+
+      showResult(
+        "⏳ Sedang membuat event..."
+      );
+
+      setLoading(
+        true
+      );
+
+      google.script.run
+
+        .withSuccessHandler(
+          function(res) {
+
+            showResult(
+              "✅ " +
+              (
+                res && res.message
+                  ? res.message
+                  : "Event berhasil dibuat"
+              )
+            );
+
+            resetFormUi();
+
+            setLoading(
+              false
+            );
+
+          }
+        )
+
+        .withFailureHandler(
+          function(err) {
+
+            showResult(
+              "❌ " +
+              (
+                err && err.message
+                  ? err.message
+                  : "Terjadi kesalahan saat membuat event."
+              )
+            );
+
+            console.error(
+              err
+            );
+
+            setLoading(
+              false
+            );
+
+          }
+        )
+
+        .saveEvent(
+          data
+        );
+
+    }
+  );
+
+
+  /*****************************************
+   * INIT DEFAULT DISPLAY
+   *****************************************/
+
+  updateRepeatDisplay();
+
+  updateRepeatEndDisplay();
+
+  updateAllDayDisplay();
+
+})();
+
+</script>
