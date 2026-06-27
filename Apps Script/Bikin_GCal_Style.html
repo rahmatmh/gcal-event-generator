@@ -1,0 +1,876 @@
+<style>
+
+/* =========================
+   RESET DASAR
+========================= */
+
+* {
+
+  box-sizing:
+    border-box;
+
+}
+
+html {
+
+  scroll-behavior:
+    smooth;
+
+}
+
+body {
+
+  margin:
+    0;
+
+  padding:
+    0;
+
+  font-family:
+    "Segoe UI",
+    Arial,
+    sans-serif;
+
+  background:
+    url(
+      "https://rahmatmh.com/Rahmat%20Miftahul%20Habib%20FPSB.jpg"
+    );
+
+  background-size:
+    cover;
+
+  background-position:
+    center;
+
+  background-attachment:
+    fixed;
+
+  color:
+    #222;
+
+}
+
+/* =========================
+   OVERLAY
+========================= */
+
+.overlay {
+
+  min-height:
+    100vh;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0, 0, 0, .68),
+      rgba(13, 110, 253, .35)
+    );
+
+  padding:
+    30px;
+
+  display:
+    flex;
+
+  justify-content:
+    center;
+
+  align-items:
+    center;
+
+}
+
+/* =========================
+   CARD
+========================= */
+
+.card {
+
+  width:
+    100%;
+
+  max-width:
+    920px;
+
+  background:
+    rgba(255, 255, 255, .96);
+
+  border-radius:
+    24px;
+
+  padding:
+    34px;
+
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, .32);
+
+  backdrop-filter:
+    blur(8px);
+
+  animation:
+    fadeIn .45s ease;
+
+}
+
+/* =========================
+   ANIMASI
+========================= */
+
+@keyframes fadeIn {
+
+  from {
+
+    opacity:
+      0;
+
+    transform:
+      translateY(12px);
+
+  }
+
+  to {
+
+    opacity:
+      1;
+
+    transform:
+      translateY(0);
+
+  }
+
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+
+  text-align:
+    center;
+
+  margin-bottom:
+    32px;
+
+  padding-bottom:
+    22px;
+
+  border-bottom:
+    1px solid #e7eaf0;
+
+}
+
+.header h1 {
+
+  margin:
+    0 0 8px 0;
+
+  font-size:
+    34px;
+
+  color:
+    #111827;
+
+  letter-spacing:
+    -.5px;
+
+}
+
+.subtitle {
+
+  margin:
+    0;
+
+  color:
+    #667085;
+
+  font-size:
+    14px;
+
+  font-weight:
+    500;
+
+}
+
+/* =========================
+   SECTION
+========================= */
+
+.section {
+
+  margin-bottom:
+    26px;
+
+  padding:
+    22px;
+
+  border:
+    1px solid #e8ecf3;
+
+  border-radius:
+    18px;
+
+  background:
+    #ffffff;
+
+  box-shadow:
+    0 6px 18px rgba(15, 23, 42, .04);
+
+}
+
+.section h2 {
+
+  margin:
+    0 0 18px 0;
+
+  color:
+    #1f4db8;
+
+  font-size:
+    15px;
+
+  text-transform:
+    uppercase;
+
+  letter-spacing:
+    1px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    8px;
+
+}
+
+.section h2::before {
+
+  content:
+    "";
+
+  width:
+    8px;
+
+  height:
+    8px;
+
+  border-radius:
+    50%;
+
+  background:
+    #0d6efd;
+
+  display:
+    inline-block;
+
+}
+
+/* =========================
+   GRID
+========================= */
+
+.grid2 {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:
+    16px;
+
+}
+
+/* =========================
+   LABEL
+========================= */
+
+label {
+
+  display:
+    block;
+
+  margin-top:
+    13px;
+
+  margin-bottom:
+    7px;
+
+  font-weight:
+    600;
+
+  color:
+    #344054;
+
+  font-size:
+    14px;
+
+}
+
+/* =========================
+   INPUT, SELECT, TEXTAREA
+========================= */
+
+input,
+select,
+textarea {
+
+  width:
+    100%;
+
+  padding:
+    13px 14px;
+
+  border-radius:
+    12px;
+
+  border:
+    1px solid #d0d5dd;
+
+  background:
+    #ffffff;
+
+  font-size:
+    14px;
+
+  color:
+    #111827;
+
+  outline:
+    none;
+
+  transition:
+    border-color .2s ease,
+    box-shadow .2s ease,
+    background .2s ease;
+
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+
+  border-color:
+    #0d6efd;
+
+  box-shadow:
+    0 0 0 4px rgba(13, 110, 253, .12);
+
+  background:
+    #fcfdff;
+
+}
+
+input::placeholder,
+textarea::placeholder {
+
+  color:
+    #98a2b3;
+
+}
+
+/* =========================
+   SELECT
+========================= */
+
+select {
+
+  cursor:
+    pointer;
+
+}
+
+/* =========================
+   TEXTAREA
+========================= */
+
+textarea {
+
+  min-height:
+    120px;
+
+  resize:
+    none;
+
+  overflow:
+    hidden;
+
+  line-height:
+    1.5;
+
+}
+
+/* =========================
+   SMALL TEXT
+========================= */
+
+small {
+
+  display:
+    block;
+
+  margin-top:
+    6px;
+
+  color:
+    #667085;
+
+  font-size:
+    12.5px;
+
+  line-height:
+    1.45;
+
+}
+
+/* =========================
+   CUSTOM REPEAT BOX
+========================= */
+
+#repeatContainer {
+
+  margin-top:
+    16px;
+
+  padding:
+    18px;
+
+  border:
+    1px dashed #bfd3ff;
+
+  border-radius:
+    16px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #f8fbff,
+      #ffffff
+    );
+
+}
+
+#repeatDaysContainer {
+
+  margin-top:
+    14px;
+
+}
+
+#repeatEndDateContainer,
+#repeatCountContainer {
+
+  margin-top:
+    10px;
+
+}
+
+/* =========================
+   WEEKDAY CHECKBOX
+========================= */
+
+.weekday-grid {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap:
+    10px;
+
+  margin-top:
+    10px;
+
+}
+
+.weekday-grid label {
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    8px;
+
+  margin:
+    0;
+
+  padding:
+    11px 12px;
+
+  border:
+    1px solid #d0d5dd;
+
+  border-radius:
+    12px;
+
+  background:
+    #f9fafb;
+
+  cursor:
+    pointer;
+
+  transition:
+    .2s ease;
+
+  font-size:
+    13.5px;
+
+  color:
+    #344054;
+
+}
+
+.weekday-grid label:hover {
+
+  background:
+    #eef4ff;
+
+  border-color:
+    #0d6efd;
+
+}
+
+.weekday-grid input[type="checkbox"] {
+
+  width:
+    auto;
+
+  margin:
+    0;
+
+  accent-color:
+    #0d6efd;
+
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+button {
+
+  width:
+    100%;
+
+  margin-top:
+    8px;
+
+  padding:
+    16px;
+
+  border:
+    none;
+
+  border-radius:
+    14px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #0d6efd,
+      #004fc4
+    );
+
+  color:
+    white;
+
+  font-size:
+    16px;
+
+  font-weight:
+    700;
+
+  cursor:
+    pointer;
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease,
+    background .2s ease;
+
+  box-shadow:
+    0 10px 20px rgba(13, 110, 253, .25);
+
+}
+
+button:hover {
+
+  transform:
+    translateY(-1px);
+
+  box-shadow:
+    0 14px 26px rgba(13, 110, 253, .32);
+
+}
+
+button:active {
+
+  transform:
+    translateY(0);
+
+}
+
+button:disabled {
+
+  opacity:
+    .65;
+
+  cursor:
+    not-allowed;
+
+  transform:
+    none;
+
+}
+
+/* =========================
+   RESULT
+========================= */
+
+#result {
+
+  margin-top:
+    20px;
+
+  text-align:
+    center;
+
+  font-weight:
+    700;
+
+  font-size:
+    15px;
+
+  min-height:
+    24px;
+
+  color:
+    #111827;
+
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+
+  text-align:
+    center;
+
+  margin-top:
+    28px;
+
+  padding-top:
+    18px;
+
+  border-top:
+    1px solid #e7eaf0;
+
+  color:
+    #8a94a6;
+
+  font-size:
+    13px;
+
+}
+
+/* =========================
+   DATE & TIME INPUT
+========================= */
+
+input[type="date"],
+input[type="time"],
+input[type="number"] {
+
+  min-height:
+    46px;
+
+}
+
+/* =========================
+   RESPONSIVE TABLET
+========================= */
+
+@media(max-width: 768px) {
+
+  .overlay {
+
+    padding:
+      18px;
+
+    align-items:
+      flex-start;
+
+  }
+
+  .card {
+
+    padding:
+      22px;
+
+    border-radius:
+      20px;
+
+  }
+
+  .header h1 {
+
+    font-size:
+      27px;
+
+  }
+
+  .subtitle {
+
+    font-size:
+      13px;
+
+  }
+
+  .section {
+
+    padding:
+      18px;
+
+  }
+
+  .grid2 {
+
+    grid-template-columns:
+      1fr;
+
+    gap:
+      12px;
+
+  }
+
+  .weekday-grid {
+
+    grid-template-columns:
+      repeat(2, 1fr);
+
+  }
+
+}
+
+/* =========================
+   RESPONSIVE HP KECIL
+========================= */
+
+@media(max-width: 480px) {
+
+  .overlay {
+
+    padding:
+      12px;
+
+  }
+
+  .card {
+
+    padding:
+      18px;
+
+    border-radius:
+      18px;
+
+  }
+
+  .header h1 {
+
+    font-size:
+      24px;
+
+  }
+
+  .section h2 {
+
+    font-size:
+      14px;
+
+  }
+
+  input,
+  select,
+  textarea {
+
+    font-size:
+      13.5px;
+
+    padding:
+      12px;
+
+  }
+
+  .weekday-grid {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+  button {
+
+    font-size:
+      15px;
+
+    padding:
+      15px;
+
+  }
+
+}
+
+/* =========================
+   PRINT MODE
+========================= */
+
+@media print {
+
+  body {
+
+    background:
+      #ffffff;
+
+  }
+
+  .overlay {
+
+    background:
+      #ffffff;
+
+    padding:
+      0;
+
+  }
+
+  .card {
+
+    box-shadow:
+      none;
+
+    border:
+      1px solid #ddd;
+
+  }
+
+  button {
+
+    display:
+      none;
+
+  }
+
+}
+
+</style>
