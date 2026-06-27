@@ -22,11 +22,12 @@ Responsive Google Calendar Event Generator built with Google Apps Script.
 
 ### Desktop
 
-*(Screenshot akan ditambahkan nanti)*
+![Desktop](Gcal%20Event%20Generator%20rahmatmh%20desktop.png)
+
 
 ### Mobile
 
-*(Screenshot akan ditambahkan nanti)*
+![Mobile](Gcal%20Event%20Generator%20rahmatmh%20mobile.png)
 
 ---
 
