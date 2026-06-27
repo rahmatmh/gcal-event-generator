@@ -68,12 +68,12 @@ Apps Script/
 - [x] Weekly Repeat
 - [x] Monthly Repeat
 
-### Version 2
+### Version 2 (next)
 
 - [ ] Edit Event
 - [ ] Delete Event
 
-### Version 3
+### Version 3 (next)
 
 - [ ] Login with Google
 - [ ] Multi User
